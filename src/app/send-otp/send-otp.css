@@ -1,0 +1,129 @@
+main{
+    background-image: url('../../../public/background.png');
+    background-position: center;    
+    background-repeat: no-repeat;
+    background-size: 150%;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+form{
+    background-color: #FFFFFF;
+    width: calc(565/ 1920 * 100%);
+    height: calc(987/ 1080 * 100%);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.25));
+    border-radius: 0.625rem;
+    padding: 3.938rem;
+}
+
+main > form > div > p{
+    text-align: center;
+}
+
+main > form > div > p:first-child{
+    font-size: 1.25rem;
+    color: #4D4D4D;
+    line-height: 3.5rem;
+}
+
+main > form > div > p:last-child{
+    font-size: 0.938rem;
+    color: #ABABAB;
+}
+
+main > form > div > label:first-child{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4D4D4D;
+    display: block;
+    line-height: 2rem;
+}
+
+main > form > div > svg{
+    position: absolute;
+    scale: 0.7;
+    top: 55.5%;
+    left: 88.5%;
+    cursor: pointer;
+}
+
+.sendOTPGroup{
+    margin-top: 4rem;
+}
+
+.otp-container {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.otp-input {
+    width: calc(565/ 1920 * 100%);
+    height: 3.75rem;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #ddd;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-top: 2.5rem;
+}
+
+.otp-input:focus {
+    border-bottom-color: #4D4D4D;
+}
+
+.otp-input:not(:placeholder-shown) {
+    border-bottom-color: #4D4D4D;
+}
+
+div[class$="Group"]:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.btnSendOTP{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    border: 0px;
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.btnSendOTP:hover{
+    background-color: #FFFFFF;
+    color: #FA7C54;
+    border: 1px solid #FA7C54;
+}
+
+.back{
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.back > span{
+    color: #4D4D4D;
+    font-size: 0.8rem;
+}
+
+.back > span > a{
+    color: #4D4D4D;
+    font-size: 0.8rem;
+}
+
+.back > a{
+    color: #4D4D4D;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
