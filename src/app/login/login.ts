@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router'; 
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
+  showPassword = false;
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 }

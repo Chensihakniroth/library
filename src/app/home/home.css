@@ -14,6 +14,8 @@ nav {
     padding: 4.5% 6% 0 6%;
     height: 18.7%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .first {
@@ -144,17 +146,17 @@ nav {
     height: 75%;
 }
 
-.profile {
+.logout-icon {
+    width: 2rem;
     margin-left: 1.938rem;
-    width: 15.202rem;
-    background-color: red;
-    height: 3.125rem;
+    height: 2rem;
+    fill: #ff5252;
 }
 
 .quoteAndRecommend {
     width: 100%;
     height: auto;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     padding: 0 4%;
 }
 
@@ -288,14 +290,7 @@ nav {
 .newBook {
     width: 100%;
     height: auto;
-    margin-top: 3.5rem;
-    padding: 0 4%;
-}   
-
-.newBook {
-    width: 100%;
-    height: auto;
-    margin-top: 3rem;
+    margin-top: 4.5rem;
     padding: 0 4%;
 }
 
