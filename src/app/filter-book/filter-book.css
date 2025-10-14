@@ -2,6 +2,37 @@
     width: 100%;
     height: auto;
     padding: 0 4%;
+    margin-top: 3rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4a4a4a;
+}
+
+.add-btn {
+    padding: 0.4rem 1.8rem;
+    background: white;
+    color: #ff6b6b;
+    border: 1.5px solid #ff6b6b;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-btn:hover {
+    background: #ff6b6b;
+    color: white;
 }
 
 .grid-header {
@@ -75,6 +106,10 @@
     width: fit-content;
 }
 
+.status-badge.status-available {
+    background-color: #66bb6a;
+}
+
 .actions {
     display: flex;
     gap: 12px;
@@ -107,4 +142,15 @@
 
 .btn-delete:hover {
     background-color: #fff5f5;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.no-results p {
+    margin: 0;
 }

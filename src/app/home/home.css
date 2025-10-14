@@ -25,7 +25,7 @@ nav {
 
 .filterAndSearch {
     margin-left: 6.625rem;
-    width: 40.523rem;
+    width: 30.523rem;
     height: 3.063rem;
     background-color: white;
     border-radius: 2.5rem;
@@ -93,9 +93,21 @@ nav {
     color: #ccc;
 }
 
+.no-results-default {
+    text-align: center;
+    padding: 3rem;
+    color: #888;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.no-results-default p {
+    margin: 0;
+}
+
 .timestamp {
     margin-left: 1.938rem;
-    width: 34.073rem;
+    width: 26.073rem;
     height: 2.875rem;
     background: white;
     border-radius: 50px;

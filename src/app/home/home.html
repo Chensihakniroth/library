@@ -2,15 +2,11 @@
     <nav>
         <span class="first">Hello world</span>
         <div class="filterAndSearch">
-            <select>
+            <select [(ngModel)]="selectedFilter" (change)="onFilterChange($event)">
                 <option value="default">Default</option>
                 <option value="onshelf">On shelf</option>
-                <option value="borrow">Borrow</option>
-                <option value="overdue">Overdue</option>
-                <option value="damage">Damage</option>
-                <option value="lost">Lost</option>
             </select>
-            <input type="text" />
+            <input type="text" placeholder="Search by title..." [(ngModel)]="searchQuery" />
         </div>
         <div class="timestamp">
             <div class="time-section">
@@ -40,131 +36,80 @@
             </svg>
         </a>
     </nav>
-    <section class="quoteAndRecommend">
-        <div class="carousel-container">
-            <div class="quote-section">
-                <div>
-                    <h2 class="quote-title">Today's Quote</h2>
-                    <p class="quote-text">"There is more treasure in books than in all the pirate's loot on Treasure
-                        Island."</p>
-                    <p class="quote-author">-Walt Disney</p>
-                </div>
-            </div>
 
-            <div class="arrivals-section">
-                <div class="arrivals-tab">Recommend </div>
-                <div class="books-container">
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
-                            alt="Holy Bible">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=200&h=300&fit=crop"
-                            alt="Harry Potter">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&h=300&fit=crop"
-                            alt="Lean UX">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&h=300&fit=crop"
-                            alt="Don't Make Me Think">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=300&fit=crop"
-                            alt="Book 5">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
-                            alt="Holy Bible">
-                    </div>
-                    <div class="book">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
-                            alt="Holy Bible">
+    <!-- Show this when data is available -->
+    <ng-container *ngIf="hasData">
+        <section class="quoteAndRecommend">
+            <div class="carousel-container">
+                <div class="quote-section">
+                    <div>
+                        <h2 class="quote-title">Today's Quote</h2>
+                        <p class="quote-text">"There is more treasure in books than in all the pirate's loot on Treasure
+                            Island."</p>
+                        <p class="quote-author">-Walt Disney</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-    <section class="newBook">
-        <div class="section-header">
-            <h1>New Book</h1>
-            <button class="add-btn">Add</button>
-        </div>
 
-        <div class="books-scroll">
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=450&fit=crop"
-                    class="book-cover" alt="Don't Make Me think">
-                <div class="book-title">Don't Make Me think</div>
-                <div class="book-author">Steve Krug, 2000</div>
-                <div class="book-rating">40</div>
+                <div class="arrivals-section">
+                    <div class="arrivals-tab">Recommend </div>
+                    <div class="books-container">
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
+                                alt="Holy Bible">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=200&h=300&fit=crop"
+                                alt="Harry Potter">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&h=300&fit=crop"
+                                alt="Lean UX">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&h=300&fit=crop"
+                                alt="Don't Make Me Think">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&h=300&fit=crop"
+                                alt="Book 5">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
+                                alt="Holy Bible">
+                        </div>
+                        <div class="book">
+                            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=200&h=300&fit=crop"
+                                alt="Holy Bible">
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=300&h=450&fit=crop"
-                    class="book-cover" alt="The Design of Every...">
-                <div class="book-title">The Design of Every...</div>
-                <div class="book-author">Don Norman, 1988</div>
-                <div class="book-rating">40</div>
-            </div>
-
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop"
-                    class="book-cover" alt="Sprint : How to solve...">
-                <div class="book-title">Sprint : How to solve...</div>
-                <div class="book-author">Jake Knapp, 2000</div>
-                <div class="book-rating">40</div>
-            </div>
-
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=450&fit=crop"
-                    class="book-cover" alt="Lean UX : Design Gr...">
-                <div class="book-title">Lean UX : Design Gr...</div>
-                <div class="book-author">Jeff Gothelf, 2016</div>
-                <div class="book-rating">40</div>
-            </div>
-
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=450&fit=crop"
-                    class="book-cover" alt="The Road to React">
-                <div class="book-title">The Road to React</div>
-                <div class="book-author">Steve Krug, 2000</div>
-                <div class="book-rating">40</div>
+        </section>
+        <section class="newBook">
+            <div class="section-header">
+                <h1>New Book</h1>
+                <button class="add-btn" (click)="onAddBook()">Add</button>
             </div>
 
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=300&h=450&fit=crop"
-                    class="book-cover" alt="Rich Dad Poor Dad">
-                <div class="book-title">Rich Dad Poor Dad</div>
-                <div class="book-author">Robert T Kiyosaki, 1997</div>
-                <div class="book-rating">40</div>
-            </div>
+            <div class="books-scroll">
+                <div class="book-card" *ngFor="let book of filteredBooks">
+                    <img [src]="book.cover"
+                        class="book-cover" [alt]="book.title">
+                    <div class="book-title">{{ book.title }}</div>
+                    <div class="book-author">{{ book.author }}, {{ book.year }}</div>
+                    <div class="book-rating">{{ book.rating }}</div>
+                </div>
 
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=300&h=450&fit=crop"
-                    class="book-cover" alt="Harry Potter and The...">
-                <div class="book-title">Harry Potter and The...</div>
-                <div class="book-author">J.K. Rowling, 2002</div>
-                <div class="book-rating">40</div>
+                <div *ngIf="filteredBooks.length === 0" class="no-results-default">
+                    <p>No books found matching "{{ searchQuery }}"</p>
+                </div>
             </div>
+        </section>
+    </ng-container>
 
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=450&fit=crop"
-                    class="book-cover" alt="You Don't Know JS: S...">
-                <div class="book-title">You Don't Know JS: S...</div>
-                <div class="book-author">Kyle Simpson, 2014</div>
-                <div class="book-rating">40</div>
-            </div>
-
-            <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=450&fit=crop"
-                    class="book-cover" alt="You Don't Know JS: S...">
-                <div class="book-title">You Don't Know JS: S...</div>
-                <div class="book-author">Kyle Simpson, 2014</div>
-                <div class="book-rating">40</div>
-            </div>
-        </div>
-    </section>
+    <!-- Show this when "On shelf" is selected -->
+    <ng-container *ngIf="!hasData">
+        <app-filter-book [searchQuery]="searchQuery"></app-filter-book>
+    </ng-container>
 </main>
 <router-outlet></router-outlet>
