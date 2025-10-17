@@ -1,0 +1,80 @@
+<div class="popup-container">
+    <div class="popup-icon">
+        <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+        </svg>
+    </div>
+
+    <h2 class="popup-title">Add Book</h2>
+    <p class="popup-subtitle">Input information about the book</p>
+
+    <!-- File Upload Area -->
+    <div class="upload-area" (click)="triggerFileInput()">
+        <input #fileInput type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+        
+        @if (imagePreview) {
+            <div class="image-preview">
+                <img [src]="imagePreview" alt="Preview" class="preview-image">
+                <button type="button" class="remove-image-btn" (click)="removeImage(); $event.stopPropagation()">×</button>
+            </div>
+        } @else if (selectedFileName) {
+            <div class="upload-text">Selected: {{ selectedFileName }}</div>
+        } @else {
+            <div class="upload-text">
+                <div>UPLOAD IMG</div>
+                <div class="upload-hint">Click to select an image</div>
+            </div>
+        }
+    </div>
+
+    <!-- Error Message -->
+    @if (uploadError) {
+    <div class="error-message">{{ uploadError }}</div>
+    }
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Book Title *</label>
+            <input type="text" class="form-input" [(ngModel)]="bookData.title" placeholder="Enter book title">
+        </div>
+        <div class="form-group" style="max-width: 180px;">
+            <label class="form-label">Publish Year</label>
+            <input type="text" class="form-input" [(ngModel)]="bookData.publishYear" placeholder="2024" maxlength="4">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group" style="max-width: 180px;">
+            <label class="form-label">Book Create at</label>
+            <input type="text" class="form-input" [(ngModel)]="bookData.bookCreateAt" placeholder="1999" maxlength="4">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Author *</label>
+            <input type="text" class="form-input" [(ngModel)]="bookData.author" placeholder="Enter author name">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">ISBN</label>
+            <input type="text" class="form-input" [(ngModel)]="bookData.isbn" placeholder="978-3-16-148410-0">
+        </div>
+        <div class="form-group" style="max-width: 180px;">
+            <label class="form-label">Pages</label>
+            <input type="number" class="form-input" [(ngModel)]="bookData.pages" placeholder="45" min="1">
+        </div>
+    </div>
+
+    <div class="button-row">
+        <button class="btn btn-cancel" (click)="closePopup()" [disabled]="isUploading">Cancel</button>
+        <button class="btn btn-add" (click)="addBook()" [disabled]="isUploading">
+            @if (isUploading) {
+                Adding...
+            } @else {
+                Add
+            }
+        </button>
+    </div>
+</div>

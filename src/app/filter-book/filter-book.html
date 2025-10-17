@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="section-header">
+        <h1>Books on Shelf</h1>
+        <button class="add-btn" (click)="onAddBook()">Add</button>
+    </div>
+
+    <div class="grid-header">
+        <div class="grid-header-item">Title</div>
+        <div class="grid-header-item">Pages</div>
+        <div class="grid-header-item">ISBN</div>
+        <div class="grid-header-item">Publisher Year</div>
+        <div class="grid-header-item">Status</div>
+        <div class="grid-header-item">Actions</div>
+    </div>
+
+    @for (book of filteredBooks; track book.title) {
+    <div class="grid-row">
+        <div class="book-info">
+            <img [src]="book.coverUrl"
+                [alt]="book.title" class="book-cover">
+            <div class="book-details">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.author }}, {{ book.year }}</p>
+            </div>
+        </div>
+        <div class="grid-cell">{{ book.pages }}</div>
+        <div class="grid-cell">{{ book.isbn }}</div>
+        <div class="grid-cell">{{ book.publisherYear }}</div>
+        <div class="grid-cell">
+            <span class="status-badge" [class.status-available]="book.status === 'Available'">
+                {{ book.status }}
+            </span>
+        </div>
+        <div class="actions">
+            <button class="btn btn-update" (click)="onUpdate(book)">Update</button>
+            <button class="btn btn-delete" (click)="onDelete(book)">Delete</button>
+        </div>
+    </div>
+    }
+
+    @if (filteredBooks.length === 0) {
+    <div class="no-results">
+        <p>No books found matching "{{ searchQuery }}"</p>
+    </div>
+    }
+</div>

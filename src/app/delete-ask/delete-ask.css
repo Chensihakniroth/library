@@ -1,0 +1,89 @@
+.modal {
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.warning-icon {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #ff9800;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.warning-icon::before {
+    content: '!';
+    font-size: 32px;
+    font-weight: bold;
+    color: #ff9800;
+    line-height: 1;
+}
+
+.modal h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+}
+
+.modal p {
+    font-size: 18px;
+    color: #757575;
+    margin-bottom: 40px;
+    line-height: 1.5;
+}
+
+.button-group {
+    display: flex;
+    gap: 16px;
+}
+
+.btn {
+    flex: 1;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-discard {
+    background: white;
+    color: #424242;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-discard:hover {
+    background-color: #f5f5f5;
+    border-color: #d0d0d0;
+}
+
+.btn-delete {
+    background: #ff4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #ff2222;
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+}

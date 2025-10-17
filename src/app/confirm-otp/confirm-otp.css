@@ -1,0 +1,156 @@
+main{
+    background-image: url('../../../public/background.png');
+    background-position: center;    
+    background-repeat: no-repeat;
+    background-size: 150%;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+form{
+    background-color: #FFFFFF;
+    width: calc(565/ 1920 * 100%);
+    height: calc(987/ 1080 * 100%);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.25));
+    border-radius: 0.625rem;
+    padding: 3.938rem;
+}
+
+.confirmOTPGroup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main > form > div > p{
+    text-align: center;
+}
+
+main > form > div > p:first-child{
+    font-size: 1.25rem;
+    color: #4D4D4D;
+    line-height: 3.5rem;
+}
+
+main > form > div > p:last-child{
+    font-size: 0.938rem;
+    color: #ABABAB;
+}
+
+main > form > div > label:first-child{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4D4D4D;
+    display: block;
+    line-height: 2rem;
+    text-align: center;
+}
+
+main > form > div > svg{
+    position: absolute;
+    scale: 0.7;
+    top: 55.5%;
+    left: 88.5%;
+    cursor: pointer;
+}
+
+.checkmark-circle {
+    width: 9.375rem;
+    height: 9.375rem;
+    position: relative;
+    margin: 3rem 0 2rem 0;
+}
+
+.checkmark-circle .background {
+    width: 9.375rem;
+    height: 9.375rem;
+    border-radius: 50%;
+    background: #4caf50;
+    position: absolute;
+    transform: scale(0);
+    animation: scaleCircle 0.4s ease-in-out forwards;
+}
+
+.checkmark-circle .checkmark.draw:after {
+    animation-delay: 0.3s;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    animation-fill-mode: forwards;
+}
+
+.checkmark-circle .checkmark:after {
+    opacity: 1;
+    height: 4.6875rem;
+    width: 2.34375rem;
+    transform-origin: left top;
+    border-right: 0.375rem solid #fff;
+    border-top: 0.375rem solid #fff;
+    border-radius: 0.15625rem;
+    content: '';
+    left: 2.1875rem;
+    top: 4.6875rem;
+    position: absolute;
+    transform: scaleX(-1) rotate(135deg);
+}
+
+@keyframes scaleCircle {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    20% {
+        height: 0;
+        width: 2.34375rem;
+        opacity: 1;
+    }
+    40% {
+        height: 4.6875rem;
+        width: 2.34375rem;
+        opacity: 1;
+    }
+    100% {
+        height: 4.6875rem;
+        width: 2.34375rem;
+        opacity: 1;
+    }
+}
+
+div[class$="Group"]:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.backToLogin{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    border: 0px;
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.backToLogin:hover{
+    background-color: #FFFFFF;
+    color: #FA7C54;
+    border: 1px solid #FA7C54;
+}

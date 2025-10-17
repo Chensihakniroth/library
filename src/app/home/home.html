@@ -1,0 +1,138 @@
+<main>
+    
+    <nav>
+        <div class="logo">
+            <div class="logo-image">
+                
+            </div>
+        
+        </div>
+        <div class="filterAndSearch">
+            <select [(ngModel)]="selectedFilter" (change)="onFilterChange($event)">
+                <option value="default">Default</option>
+                <option value="onshelf">On shelf</option>
+            </select>
+            <input 
+                type="text" 
+                placeholder="Search by title..." 
+                [(ngModel)]="searchQuery"
+                (keyup.enter)="onSearch()"
+            />
+        </div>
+        <div class="timestamp">
+            <div class="time-section">
+                <div class="icon clock-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="time-text">{{ currentTime }}</div>
+            </div>
+            <div class="date-section">
+                <div class="icon calendar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                </div>
+                <div class="date-text">{{ currentDate }}</div>
+            </div>
+        </div>
+        <a routerLink="">
+            <svg class="logout-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+            </svg>
+        </a>
+    </nav>
+
+    <!-- Loading State -->
+    @if (isLoading) {
+    <div style="text-align: center; padding: 2rem;">
+        <p>Loading books...</p>
+    </div>
+    }
+
+    <!-- Error Message -->
+    @if (errorMessage) {
+    <div class="alert alert-error" style="margin: 1rem 4%;">
+        {{ errorMessage }}
+    </div>
+    }
+
+    <!-- Show this when data is available -->
+    @if (hasData && !isLoading) {
+    <section class="quoteAndRecommend">
+        <div class="carousel-container">
+            <div class="quote-section">
+                <div>
+                    <h2 class="quote-title">Today's Quote</h2>
+                    <p class="quote-text">"There is more treasure in books than in all the pirate's loot on Treasure Island."</p>
+                    <p class="quote-author">-Walt Disney</p>
+                </div>
+            </div>
+
+            <div class="arrivals-section">
+                <div class="arrivals-tab">Recommended</div>
+                <div class="books-container">
+                    @for (book of books.slice(0, 6); track book.id) {
+                    <div class="book">
+                        <img [src]="getImageUrl(book.img)" [alt]="book.title">
+                    </div>
+                    }
+                    @if (books.length === 0) {
+                    <div class="no-results-default">
+                        <p>No books available</p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="newBook">
+        <div class="section-header">
+            <h1>All Books</h1>
+            <button class="add-btn" (click)="onAddBook()">Add</button>
+        </div>
+
+        <div class="books-scroll">
+            @for (book of filteredBooks; track book.id) {
+            <div class="book-card">
+                <img [src]="getImageUrl(book.img)" class="book-cover" [alt]="book.title">
+                <div class="book-title">{{ book.title }}</div>
+                <div class="book-author">{{ book.author }}</div>
+                <div class="book-copies">Available: {{ book.available_copies }}/{{ book.total_copies }}</div>
+                <div class="book-status" [class.available]="book.available_copies > 0" [class.unavailable]="book.available_copies === 0">
+                    {{ book.available_copies > 0 ? 'Available' : 'Out of Stock' }}
+                </div>
+            </div>
+            }
+
+            @if (filteredBooks.length === 0 && !isLoading) {
+            <div class="no-results-default">
+                <p>No books found matching "{{ searchQuery }}"</p>
+            </div>
+            }
+        </div>
+    </section>
+    }
+
+    <!-- Show this when "On shelf" is selected -->
+    @if (!hasData && !isLoading) {
+    <app-filter-book [searchQuery]="searchQuery"></app-filter-book>
+    }
+
+<!-- Add Book Popup -->
+@if (showAddBookPopup) {
+<div class="popup-overlay" (click)="closeAddBookPopup()" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="popup-content" (click)="$event.stopPropagation()" style="animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <app-add-book (close)="closeAddBookPopup()"></app-add-book>
+  </div>
+</div>
+}
+
+</main>
+<router-outlet></router-outlet>

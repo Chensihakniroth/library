@@ -1,0 +1,243 @@
+.popup-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 450px;
+  max-width: 90vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center;
+  box-sizing: border-box;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.popup-icon {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #ffe8d9 0%, #ffd4b8 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.popup-icon svg {
+  width: 35px;
+  height: 35px;
+  stroke: #ff7a3d;
+  stroke-width: 3;
+  fill: none;
+}
+
+.popup-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.popup-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.upload-area {
+  background: linear-gradient(135deg, #ff8566 0%, #ff5588 100%);
+  border: 2px dashed #ff9977;
+  border-radius: 12px;
+  padding: 3.5rem 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area:hover {
+  opacity: 0.9;
+  transform: scale(1.01);
+}
+
+.upload-text {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid #ffcdd2;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  min-height: 85px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-group[style*="max-width: 180px"] {
+  flex: 0 0 180px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #333;
+  transition: all 0.3s;
+  outline: none;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+.form-input:focus {
+  border-color: #ff7a3d;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-shrink: 0;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.85rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  min-height: 48px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-cancel {
+  background: white;
+  color: #666;
+  border: 1.5px solid #e0e0e0;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.btn-add {
+  background: white;
+  color: #ff5566;
+  border: 2px solid #ff5566;
+}
+
+.btn-add:hover:not(:disabled) {
+  background: #ff5566;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .popup-container {
+    padding: 1.5rem;
+    margin: 1rem;
+    width: 95vw;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0.8rem;
+    min-height: auto;
+  }
+  
+  .form-group[style*="max-width: 180px"] {
+    flex: 1;
+    max-width: 100% !important;
+  }
+}
+
+.upload-hint {
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.image-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.preview-image {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.remove-image-btn:hover {
+  background: #cc0000;
+}

@@ -1,0 +1,156 @@
+.container {
+    width: 100%;
+    height: auto;
+    padding: 0 4%;
+    margin-top: 3rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4a4a4a;
+}
+
+.add-btn {
+    padding: 0.4rem 1.8rem;
+    background: white;
+    color: #ff6b6b;
+    border: 1.5px solid #ff6b6b;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-btn:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+.grid-header {
+    display: grid;
+    grid-template-columns: 2.5fr 0.4fr 1fr 0.8fr 0.7fr 1.2fr;
+    gap: 30px;
+    padding: 20px 24px;
+    margin-bottom: 0;
+}
+
+.grid-header-item {
+    font-weight: 400;
+    font-size: 15px;
+    color: #888888;
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: 2.5fr 0.4fr 1fr 0.8fr 0.7fr 1.2fr;
+    gap: 30px;
+    padding: 24px;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-top: 1.25rem;
+}
+
+.book-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.book-cover {
+    width: 56px;
+    height: 80px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.book-details h3 {
+    font-size: 15px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.book-details p {
+    font-size: 14px;
+    color: #999999;
+    font-weight: 300;
+}
+
+.grid-cell {
+    font-size: 15px;
+    color: #1a1a1a;
+    font-weight: 300;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 7px 18px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #ff8a65;
+    color: white;
+    width: fit-content;
+}
+
+.status-badge.status-available {
+    background-color: #66bb6a;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 9px 24px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid;
+    background: white;
+    transition: all 0.2s;
+}
+
+.btn-update {
+    color: #4fc3f7;
+    border-color: #4fc3f7;
+}
+
+.btn-update:hover {
+    background-color: #e1f5fe;
+}
+
+.btn-delete {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-delete:hover {
+    background-color: #fff5f5;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.no-results p {
+    margin: 0;
+}

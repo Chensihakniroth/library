@@ -1,0 +1,266 @@
+main{
+    background-image: url('../../../public/background.png');
+    background-position: center;    
+    background-repeat: no-repeat;
+    background-size: 150%;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+form{
+    background-color: #FFFFFF;
+    width: calc(565/ 1920 * 100%);
+    height: calc(987/ 1080 * 100%);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.25));
+    border-radius: 0.625rem;
+    padding: 3.938rem;
+}
+
+main > form > div > p{
+    text-align: center;
+}
+
+main > form > div > p:first-child{
+    font-size: 1.25rem;
+    color: #4D4D4D;
+    line-height: 3.5rem;
+}
+
+main > form > div > p:last-child{
+    font-size: 0.938rem;
+    color: #ABABAB;
+}
+
+main > form > div > label:first-child{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4D4D4D;
+    display: block;
+    line-height: 2rem;
+}
+
+main > form > div > input{
+    border: 1px solid #DCD9D9;
+    background-color: #FFFFFF;
+    padding: 0.7rem;
+    width: 100%;
+    color: #4D4D4D;
+    border-radius: 0.25rem;
+}
+
+main > form > div > svg{
+    position: absolute;
+    scale: 0.7;
+    top: 55.5%;
+    left: 88.5%;
+    cursor: pointer;
+}
+
+.firstNameGroup{
+    margin-top: 2.5rem;
+}
+
+div[class$="Group"]:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.passwordGroup{
+    position: relative;
+}
+
+input[type="checkbox"]{
+    width: 0.8rem;
+    height: 0.8rem;
+    position: absolute;
+    bottom: 7.5%;
+    left: -47.5%;
+    cursor: pointer;
+    accent-color: #FA7C54;
+}
+
+.btnRegister{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    border: 0px;
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.btnRegister:hover{
+    background-color: #FFFFFF;
+    color: #FA7C54;
+    border: 1px solid #FA7C54;
+}
+
+.registerAsk{
+    margin-top: 1.75rem;
+}
+
+.registerAsk > span{
+    color: #4D4D4D;
+    font-size: 0.8rem;
+}
+
+
+.registerAsk > a{
+    color: #4D4D4D;
+    font-size: 0.8rem;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.error-message {
+  margin-top: 5px;
+}
+
+.error-message small {
+  color: #ff4757;
+  font-size: 12px;
+}
+
+input.invalid {
+  border-color: #ff4757 !important;
+}
+
+.btnRegister:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nameGroup, 
+.emailGroup, 
+.passwordGroup, 
+.confirmPasswordGroup {
+  margin-bottom: 15px;
+}
+
+.nameGroup label, 
+.emailGroup label, 
+.passwordGroup label, 
+.confirmPasswordGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.nameGroup input, 
+.emailGroup input, 
+.passwordGroup input, 
+.confirmPasswordGroup input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.nameGroup input:focus, 
+.emailGroup input:focus, 
+.passwordGroup input:focus, 
+.confirmPasswordGroup input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.error-message {
+  margin-top: 5px;
+}
+
+.error-message small {
+  color: #ff4757;
+  font-size: 12px;
+}
+
+input.invalid {
+  border-color: #ff4757 !important;
+}
+
+.btnRegister:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nameGroup, 
+.emailGroup, 
+.passwordGroup, 
+.confirmPasswordGroup {
+  margin-bottom: 15px;
+}
+
+.nameGroup label, 
+.emailGroup label, 
+.passwordGroup label, 
+.confirmPasswordGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.nameGroup input, 
+.emailGroup input, 
+.passwordGroup input, 
+.confirmPasswordGroup input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.nameGroup input:focus, 
+.emailGroup input:focus, 
+.passwordGroup input:focus, 
+.confirmPasswordGroup input:focus {
+  outline: none;
+  border-color: #667eea;
+}
