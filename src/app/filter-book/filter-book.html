@@ -13,7 +13,8 @@
         <div class="grid-header-item">Actions</div>
     </div>
 
-    <div *ngFor="let book of filteredBooks" class="grid-row">
+    @for (book of filteredBooks; track book.title) {
+    <div class="grid-row">
         <div class="book-info">
             <img [src]="book.coverUrl"
                 [alt]="book.title" class="book-cover">
@@ -35,8 +36,11 @@
             <button class="btn btn-delete" (click)="onDelete(book)">Delete</button>
         </div>
     </div>
+    }
 
-    <div *ngIf="filteredBooks.length === 0" class="no-results">
+    @if (filteredBooks.length === 0) {
+    <div class="no-results">
         <p>No books found matching "{{ searchQuery }}"</p>
     </div>
+    }
 </div>

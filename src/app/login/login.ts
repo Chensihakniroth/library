@@ -2,17 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    RouterOutlet, 
-    RouterLink, 
-    CommonModule, 
-    ReactiveFormsModule
-  ],
+  imports: [RouterOutlet, RouterLink, CommonModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
@@ -42,89 +37,71 @@ export class Login implements OnInit {
   }
 
   onSubmit(): void {
-  this.errorMessage = '';
-  this.successMessage = '';
+    this.errorMessage = '';
+    this.successMessage = '';
 
-  if (this.loginForm.invalid) {
-    this.markAllFieldsAsTouched();
-    this.errorMessage = 'Please fill all fields correctly';
-    return;
-  }
-
-  this.isLoading = true;
-  this.loginForm.disable(); // Disable form during submission
-
-  const loginData = {
-    email: this.loginForm.value.email,
-    password: this.loginForm.value.password
-  };
-
-  this.authService.login(loginData).subscribe({
-    next: (response: any) => {
-      this.isLoading = false;
-      this.loginForm.enable(); // Re-enable form
-      
-      if (response.success) {
-        this.successMessage = response.message || 'Login successful!';
-        
-        // Store user data and token
-        this.authService.setUser({
-          token: response.token,
-          id: response.user.id,
-          name: response.user.name,
-          email: response.user.email,
-          profile_image: response.user.profile_image
-        });
-
-        // Store remember me preference
-        if (this.loginForm.value.rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-        }
-
-        // Redirect to home page
-        setTimeout(() => {
-          this.router.navigate(['/home']);
-        }, 1000);
-      } else {
-        this.errorMessage = response.message || 'Login failed';
-        this.resetFormForRetry();
-      }
-    },
-    error: (error) => {
-      this.isLoading = false;
-      this.loginForm.enable(); // Re-enable form
-      console.error('Login error:', error);
-      
-      if (error.error && error.error.message) {
-        this.errorMessage = error.error.message;
-      } else if (error.status === 0) {
-        this.errorMessage = 'Cannot connect to server. Please check if the backend is running.';
-      } else if (error.status === 401) {
-        this.errorMessage = 'Invalid email or password';
-      } else if (error.status === 404) {
-        this.errorMessage = 'Service not found. Please check the API endpoint.';
-      } else {
-        this.errorMessage = 'Login failed. Please try again.';
-      }
-      
-      this.resetFormForRetry();
+    if (this.loginForm.invalid) {
+      this.markAllFieldsAsTouched();
+      this.errorMessage = 'Please fill all fields correctly';
+      return;
     }
-  });
-}
 
-private resetFormForRetry(): void {
-  // Clear password field but keep email
-  const currentEmail = this.loginForm.get('email')?.value;
-  this.loginForm.reset({
-    email: currentEmail,
-    password: '',
-    rememberMe: this.loginForm.get('rememberMe')?.value
-  });
-  
-  // Mark fields as untouched to clear validation errors
-  this.loginForm.get('password')?.markAsUntouched();
-  this.loginForm.get('email')?.markAsUntouched();
-}
+    this.isLoading = true;
+
+    const loginData = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
+    };
+
+    this.authService.login(loginData).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+        
+        if (response.success) {
+          this.successMessage = response.message || 'Login successful!';
+          
+          // Store user data and token
+          this.authService.setUser({
+            token: response.token,
+            id: response.user.id,
+            name: response.user.name,
+            email: response.user.email,
+            profile_image: response.user.profile_image
+          });
+
+          // Store remember me preference
+          if (this.loginForm.value.rememberMe) {
+            localStorage.setItem('rememberMe', 'true');
+          }
+
+        // Replace the navigation in login success with:
+             setTimeout(() => {
+             this.router.navigate(['/home'], { 
+            onSameUrlNavigation: 'reload',
+          replaceUrl: true 
+          });
+        }, 1000);
+
+        } else {
+          this.errorMessage = response.message || 'Login failed';
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Login error:', error);
+        
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else if (error.status === 0) {
+          this.errorMessage = 'Cannot connect to server. Please check if the backend is running.';
+        } else if (error.status === 401) {
+          this.errorMessage = 'Invalid email or password';
+        } else {
+          this.errorMessage = 'Login failed. Please try again.';
+        }
+      }
+    });
+  }
 
   private markAllFieldsAsTouched(): void {
     Object.keys(this.loginForm.controls).forEach(key => {

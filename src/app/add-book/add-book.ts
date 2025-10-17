@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-book',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './add-book.css'
 })
 export class AddBook {
+  @Output() close = new EventEmitter<void>();
 
+  closePopup(): void {
+    this.close.emit();
+  }
 }

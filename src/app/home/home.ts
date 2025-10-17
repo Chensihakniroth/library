@@ -1,78 +1,68 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { RouterOutlet, RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilterBook } from '../filter-book/filter-book';
+import { BookService, Book } from '../services/book.service';
+import { Subscription } from 'rxjs';
+import { AddBook } from '../add-book/add-book';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, RouterLink, CommonModule, FormsModule, FilterBook],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, CommonModule, FormsModule, FilterBook, AddBook],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
+export class Home implements OnInit, OnDestroy {
   selectedFilter: string = 'default';
   searchQuery: string = '';
+  isLoading: boolean = true;
+  books: Book[] = [];
+  errorMessage: string = '';
+  showAddBookPopup: boolean = false;
+  private routeSubscription: Subscription;
 
-  // Sample books data for default view
-  allBooks = [
-    {
-      title: 'Don\'t Make Me think',
-      author: 'Steve Krug',
-      year: 2000,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'The Design of Every...',
-      author: 'Don Norman',
-      year: 1988,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'Sprint : How to solve...',
-      author: 'Jake Knapp',
-      year: 2000,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'Lean UX : Design Gr...',
-      author: 'Jeff Gothelf',
-      year: 2016,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'The Road to React',
-      author: 'Steve Krug',
-      year: 2000,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'Rich Dad Poor Dad',
-      author: 'Robert T Kiyosaki',
-      year: 1997,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'Harry Potter and The...',
-      author: 'J.K. Rowling',
-      year: 2002,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=300&h=450&fit=crop'
-    },
-    {
-      title: 'You Don\'t Know JS: S...',
-      author: 'Kyle Simpson',
-      year: 2014,
-      rating: 40,
-      cover: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=450&fit=crop'
+  constructor(
+    private bookService: BookService,
+    private route: ActivatedRoute
+  ) {
+    // Listen for route changes to reload books
+    this.routeSubscription = this.route.params.subscribe(params => {
+      this.loadBooks();
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadBooks();
+  }
+
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
     }
-  ];
+  }
+
+  loadBooks(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    console.log('Loading books...');
+    
+    this.bookService.getAllBooks().subscribe({
+      next: (books: Book[]) => {
+        this.books = books;
+        this.isLoading = false;
+        console.log('Books loaded successfully:', this.books.length);
+      },
+      error: (error) => {
+        console.error('Error loading books:', error);
+        this.errorMessage = 'Failed to load books. Please try again.';
+        this.isLoading = false;
+        this.books = [];
+      }
+    });
+  }
 
   get hasData(): boolean {
     return this.selectedFilter !== 'onshelf';
@@ -80,22 +70,86 @@ export class Home {
 
   get filteredBooks() {
     if (!this.searchQuery || this.searchQuery.trim() === '') {
-      return this.allBooks;
+      return this.books;
     }
     const query = this.searchQuery.toLowerCase().trim();
-    return this.allBooks.filter(book => 
+    return this.books.filter(book => 
       book.title.toLowerCase().includes(query) ||
       book.author.toLowerCase().includes(query)
     );
   }
 
+  getImageUrl(imgPath: string): string {
+    return this.bookService.getImageUrl(imgPath);
+  }
+
   onFilterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedFilter = selectElement.value;
+    
+    if (this.selectedFilter === 'onshelf') {
+      this.loadOnShelfBooks();
+    } else {
+      this.loadBooks();
+    }
+  }
+
+  loadOnShelfBooks(): void {
+    this.isLoading = true;
+    this.bookService.filterBooksByStatus('on_shelf').subscribe({
+      next: (books: Book[]) => {
+        this.books = books;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading on-shelf books:', error);
+        this.errorMessage = 'Failed to load on-shelf books.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onSearch(): void {
+    if (this.searchQuery.trim()) {
+      this.isLoading = true;
+      this.bookService.searchBooks(this.searchQuery).subscribe({
+        next: (books: Book[]) => {
+          this.books = books;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error searching books:', error);
+          this.errorMessage = 'Failed to search books.';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.loadBooks();
+    }
   }
 
   onAddBook(): void {
-    console.log('Add new book');
-    // Add your logic here
+    console.log('Opening Add Book popup');
+    this.showAddBookPopup = true;
+  }
+
+  closeAddBookPopup(): void {
+    this.showAddBookPopup = false;
+  }
+
+  get currentTime(): string {
+    return new Date().toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    });
+  }
+
+  get currentDate(): string {
+    return new Date().toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    }).toUpperCase();
   }
 }
