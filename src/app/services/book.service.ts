@@ -21,33 +21,28 @@ export class BookService {
 
   constructor(private http: HttpClient) {}
 
-  // Get all books
-  getAllBooks(): Observable<Book[]> {
-    console.log('Fetching books from:', `${this.apiUrl}/books`);
-    return this.http.get<any>(`${this.apiUrl}/books`)
-      .pipe(
-        map(response => {
-          console.log('Raw API response:', response);
-          
-          if (response.success && Array.isArray(response.data)) {
-            // Convert string numbers to actual numbers and handle null images
-            const processedBooks = response.data.map((book: any) => ({
-              ...book,
-              total_copies: Number(book.total_copies) || 0,
-              available_copies: Number(book.available_copies) || 0,
-              img: book.img || null,
-              // Add a default status based on available copies
-              status: (Number(book.available_copies) || 0) > 0 ? 'available' : 'unavailable'
-            }));
-            
-            return processedBooks;
-          } else {
-            console.error('Unexpected API response format:', response);
-            throw new Error('Unexpected response format from server');
-          }
-        })
-      );
-  }
+  // Get all books - FIXED VERSION
+getAllBooks(): Observable<Book[]> {
+  return this.http.get<any>(`${this.apiUrl}/books`).pipe(
+    map(response => {
+      // Handle both response formats
+      const booksArray = response.data || response;
+      
+      if (!Array.isArray(booksArray)) {
+        console.error('Expected array but got:', booksArray);
+        return [];
+      }
+      
+      return booksArray.map((book: any) => ({
+        ...book,
+        total_copies: Number(book.total_copies) || 0,
+        available_copies: Number(book.available_copies) || 0,
+        img: book.img || null,
+        status: (Number(book.available_copies) || 0) > 0 ? 'available' : 'unavailable'
+      }));
+    })
+  );
+}
 
   // Get book by ID
   getBookById(id: number): Observable<Book> {
