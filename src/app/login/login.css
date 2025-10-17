@@ -51,6 +51,7 @@ main > form > div > input{
     width: 100%;
     color: #4D4D4D;
     border-radius: 0.25rem;
+    box-sizing: border-box;
 }
 
 main > form > div > svg{
@@ -67,6 +68,7 @@ main > form > div > svg{
 
 .passwordGroup{
     position: relative;
+    margin-bottom: 1rem;
 }
 
 input[type="checkbox"]{
@@ -99,33 +101,41 @@ input[type="checkbox"]{
 }
 
 .btnLogin {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
-  border: 0;
-  background-color: #FA7C54;
-  color: #FFFFFF;
-  margin-top: 1.75rem;
-  cursor: pointer;
-}
-
-.btnLogin a {
-  text-decoration: none;
-  color: #FFFFFF;
-  display: block; 
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    border: 0;
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    margin-top: 1.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .btnLogin:hover {
-  background-color: #FFFFFF;
-  border: 1px solid #FA7C54;
+    background-color: #FFFFFF;
+    color: #FA7C54;
+    border: 1px solid #FA7C54;
 }
 
-.btnLogin:hover a {
-  color: #FA7C54;
+.btnLogin:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    border: 0;
+}
+
+.btnLogin:disabled:hover {
+    background-color: #FA7C54;
+    color: #FFFFFF;
+    border: 0;
 }
 
 .registerAsk{
     margin-top: 1.75rem;
+    text-align: center;
 }
 
 .registerAsk > span{
@@ -133,8 +143,69 @@ input[type="checkbox"]{
     font-size: 0.8rem;
 }
 
-
 .registerAsk > a{
     color: #4D4D4D;
     font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.registerAsk > a:hover {
+    text-decoration: underline;
+}
+
+/* NEW STYLES FOR FORM VALIDATION */
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.error-message {
+    margin-top: 5px;
+}
+
+.error-message small {
+    color: #ff4757;
+    font-size: 12px;
+    display: block;
+}
+
+input.invalid {
+    border-color: #ff4757 !important;
+}
+
+/* Form group spacing */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Password group specific styles */
+.passwordGroup svg {
+    position: absolute;
+    right: 10px;
+    top: 65%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    scale: 0.7;
+}
+
+/* Ensure proper input focus */
+input:focus {
+    outline: none;
+    border-color: #FA7C54 !important;
+    box-shadow: 0 0 0 2px rgba(250, 124, 84, 0.2);
 }

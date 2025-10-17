@@ -114,3 +114,153 @@ input[type="checkbox"]{
     color: #4D4D4D;
     font-size: 0.8rem;
 }
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.error-message {
+  margin-top: 5px;
+}
+
+.error-message small {
+  color: #ff4757;
+  font-size: 12px;
+}
+
+input.invalid {
+  border-color: #ff4757 !important;
+}
+
+.btnRegister:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nameGroup, 
+.emailGroup, 
+.passwordGroup, 
+.confirmPasswordGroup {
+  margin-bottom: 15px;
+}
+
+.nameGroup label, 
+.emailGroup label, 
+.passwordGroup label, 
+.confirmPasswordGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.nameGroup input, 
+.emailGroup input, 
+.passwordGroup input, 
+.confirmPasswordGroup input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.nameGroup input:focus, 
+.emailGroup input:focus, 
+.passwordGroup input:focus, 
+.confirmPasswordGroup input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.error-message {
+  margin-top: 5px;
+}
+
+.error-message small {
+  color: #ff4757;
+  font-size: 12px;
+}
+
+input.invalid {
+  border-color: #ff4757 !important;
+}
+
+.btnRegister:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nameGroup, 
+.emailGroup, 
+.passwordGroup, 
+.confirmPasswordGroup {
+  margin-bottom: 15px;
+}
+
+.nameGroup label, 
+.emailGroup label, 
+.passwordGroup label, 
+.confirmPasswordGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.nameGroup input, 
+.emailGroup input, 
+.passwordGroup input, 
+.confirmPasswordGroup input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.nameGroup input:focus, 
+.emailGroup input:focus, 
+.passwordGroup input:focus, 
+.confirmPasswordGroup input:focus {
+  outline: none;
+  border-color: #667eea;
+}
