@@ -197,16 +197,27 @@ filterBooksByStatus(status: string): Observable<Book[]> {
       );
   }
 
-  // Delete book
-  deleteBook(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/books/${id}`)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error deleting book:', error);
-          throw error;
-        })
-      );
-  }
+  // In book.service.ts, update the deleteBook method:
+deleteBook(id: number): Observable<any> {
+  // Try different endpoint formats - adjust based on your actual API
+  const endpoints = [
+    `${this.apiUrl}/books/${id}`,
+    `${this.apiUrl}/books/delete/${id}`,
+    `${this.apiUrl}/books?id=${id}` // Some APIs use query parameters
+  ];
+
+  // Try the first endpoint, and we'll add fallbacks if needed
+  return this.http.delete<any>(endpoints[0]).pipe(
+    catchError((error: HttpErrorResponse) => {
+      console.error('Error deleting book from primary endpoint:', error);
+      
+      // If you have a different endpoint structure, we can try alternatives here
+      // For now, let's log the error and re-throw it
+      console.log('Tried to delete from:', endpoints[0]);
+      throw error;
+    })
+  );
+}
 
   // Get image URL - handle both absolute and relative paths
   getImageUrl(imgPath: string | null): string {

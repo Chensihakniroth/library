@@ -128,7 +128,8 @@
     @if (!hasData && !isLoading) {
         <app-filter-book 
         [searchQuery]="searchQuery"
-        (addBookClicked)="onAddBook()">
+        (addBookClicked)="onAddBook()"
+        (booksUpdated)="loadBooks()">
         </app-filter-book>
         }
 
