@@ -4,6 +4,21 @@
         <button class="add-btn" (click)="onAddBook()">Add</button>
     </div>
 
+    <!-- Loading State -->
+    @if (isLoading) {
+    <div style="text-align: center; padding: 2rem;">
+        <p>Loading books...</p>
+    </div>
+    }
+
+    <!-- Error Message -->
+    @if (errorMessage && !isLoading) {
+    <div class="alert alert-error" style="margin: 1rem 0; padding: 1rem; background: #ffebee; color: #c62828; border-radius: 4px;">
+        {{ errorMessage }}
+    </div>
+    }
+
+    @if (!isLoading && !errorMessage) {
     <div class="grid-header">
         <div class="grid-header-item">Title</div>
         <div class="grid-header-item">Pages</div>
@@ -13,21 +28,23 @@
         <div class="grid-header-item">Actions</div>
     </div>
 
-    @for (book of filteredBooks; track book.title) {
+    @for (book of filteredBooks; track book.id) {
     <div class="grid-row">
         <div class="book-info">
-            <img [src]="book.coverUrl"
-                [alt]="book.title" class="book-cover">
+            <img [src]="getImageUrl(book.img)" 
+                 [alt]="book.title" 
+                 class="book-cover"
+                 (error)="book.img = 'assets/default-book-cover.jpg'">
             <div class="book-details">
                 <h3>{{ book.title }}</h3>
-                <p>{{ book.author }}, {{ book.year }}</p>
+                <p>{{ book.author }}, {{ book.publishYear }}</p>
             </div>
         </div>
         <div class="grid-cell">{{ book.pages }}</div>
-        <div class="grid-cell">{{ book.isbn }}</div>
-        <div class="grid-cell">{{ book.publisherYear }}</div>
+        <div class="grid-cell">{{ book.ISBN }}</div>
+        <div class="grid-cell">{{ book.publishYear }}</div>
         <div class="grid-cell">
-            <span class="status-badge" [class.status-available]="book.status === 'Available'">
+            <span class="status-badge" [class.status-available]="book.status === 'available'">
                 {{ book.status }}
             </span>
         </div>
@@ -38,9 +55,10 @@
     </div>
     }
 
-    @if (filteredBooks.length === 0) {
+    @if (filteredBooks.length === 0 && !isLoading) {
     <div class="no-results">
         <p>No books found matching "{{ searchQuery }}"</p>
     </div>
+    }
     }
 </div>

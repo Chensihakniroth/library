@@ -19,20 +19,22 @@
 }
 
 .add-btn {
-    padding: 0.4rem 1.8rem;
-    background: white;
-    color: #ff6b6b;
-    border: 1.5px solid #ff6b6b;
+    padding: 10px 20px;
+    background: #FF6868 !important;
+    color: white !important;
+    border: none;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 15.2px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .add-btn:hover {
-    background: #ff6b6b;
-    color: white;
+    background: #e55e5e !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(255, 104, 104, 0.3);
 }
 
 .grid-header {
@@ -153,4 +155,16 @@
 
 .no-results p {
     margin: 0;
+}
+
+.alert {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.alert-error {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
 }

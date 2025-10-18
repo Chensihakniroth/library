@@ -351,22 +351,22 @@ nav {
 
 /* ===== ADD BUTTON FIX ===== */
 .add-btn {
-  padding: 0.4rem 1.8rem;
-  background: var(--primary-color); /* Red background */
-  color: var(--text-white); /* White text */
-  border: 1.5px solid var(--primary-color);
-  border-radius: var(--border-radius-small);
-  font: 500 0.95rem sans-serif;
+  padding: 10px 20px;
+  background: #FF6868 !important;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15.2px;
+  font-weight: 500;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.3s;
 }
 
 .add-btn:hover {
-  background: var(--primary-dark); /* Darker red on hover */
-  color: var(--text-white);
-  border-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+  background: #e55e5e !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 104, 104, 0.3);
 }
 
 .add-btn:active {

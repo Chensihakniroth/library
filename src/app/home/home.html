@@ -125,10 +125,12 @@
     </section>
     }
 
-    <!-- Show this when "On shelf" is selected -->
     @if (!hasData && !isLoading) {
-    <app-filter-book [searchQuery]="searchQuery"></app-filter-book>
-    }
+        <app-filter-book 
+        [searchQuery]="searchQuery"
+        (addBookClicked)="onAddBook()">
+        </app-filter-book>
+        }
 
     <!-- Add Book Popup -->
     @if (showAddBookPopup) {
