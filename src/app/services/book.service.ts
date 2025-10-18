@@ -55,35 +55,43 @@ export class BookService {
     );
   }
 
-  // ▼▼▼ PASTE THE NEW METHOD HERE - REPLACE THE OLD ONE ▼▼▼
-  filterBooksByStatus(status: string): Observable<Book[]> {
-    return this.getAllBooks().pipe(
-      map(books => {
-        console.log('Total books available:', books.length);
-        
-        if (status === 'on_shelf') {
-          // Multiple ways to identify "on shelf" books safely
-          const onShelfBooks = books.filter(book => {
-            return (
-              book.available_copies > 0 ||           // Has available copies
-              book.status?.toLowerCase() === 'available' ||  // Status is available
-              book.status?.toLowerCase() === 'on_shelf' ||   // Status is on_shelf
-              (book.available_copies === undefined && book.status === undefined) // Fallback
-            );
-          });
+// In book.service.ts, replace the filterBooksByStatus method with this:
+filterBooksByStatus(status: string): Observable<Book[]> {
+  return this.getAllBooks().pipe(
+    map(books => {
+      console.log('🔍 Total books from database:', books.length);
+      console.log('🔍 All books:', books);
+      
+      if (status === 'on_shelf') {
+        // More flexible filtering - show books that are likely available
+        const onShelfBooks = books.filter(book => {
+          // Show book if any of these conditions are true:
+          const isAvailable = 
+            book.available_copies > 0 ||
+            book.total_copies > 0 ||
+            book.status?.toLowerCase().includes('available') ||
+            book.status?.toLowerCase().includes('on_shelf') ||
+            !book.status; // If no status, assume available
+            
+          console.log(`🔍 Book: "${book.title}" - available_copies: ${book.available_copies}, total_copies: ${book.total_copies}, status: "${book.status}", isAvailable: ${isAvailable}`);
           
-          console.log('Books filtered as on-shelf:', onShelfBooks.length);
-          return onShelfBooks;
-        }
+          return isAvailable;
+        });
         
-        return books; // Safe fallback
-      }),
-      catchError((error) => {
-        console.error('Filtering error:', error);
-        return of([]); // Safe empty array on error
-      })
-    );
-  }
+        console.log('🔍 On-shelf books after filtering:', onShelfBooks.length);
+        console.log('🔍 On-shelf books:', onShelfBooks);
+        return onShelfBooks;
+      }
+      
+      // For other statuses, return all books
+      return books;
+    }),
+    catchError((error) => {
+      console.error('Filtering error:', error);
+      return of([]);
+    })
+  );
+}
 
   // Search books by title
   searchBooks(title: string): Observable<Book[]> {

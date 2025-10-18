@@ -13,15 +13,15 @@
 
     <!-- Error Message -->
     @if (errorMessage && !isLoading) {
-    <div class="alert alert-error" style="margin: 1rem 0; padding: 1rem; background: #ffebee; color: #c62828; border-radius: 4px;">
+    <div class="alert alert-error">
         {{ errorMessage }}
     </div>
     }
 
     @if (!isLoading && !errorMessage) {
     <div class="grid-header">
-        <div class="grid-header-item">Title</div>
-        <div class="grid-header-item">Pages</div>
+        <div class="grid-header-item">Title & Author</div>
+        <div class="grid-header-item">Available Copies</div>
         <div class="grid-header-item">ISBN</div>
         <div class="grid-header-item">Publisher Year</div>
         <div class="grid-header-item">Status</div>
@@ -37,15 +37,18 @@
                  (error)="book.img = 'assets/default-book-cover.jpg'">
             <div class="book-details">
                 <h3>{{ book.title }}</h3>
-                <p>{{ book.author }}, {{ book.publishYear }}</p>
+                <p>{{ book.author }}</p>
             </div>
         </div>
-        <div class="grid-cell">{{ book.pages }}</div>
+        <div class="grid-cell copies-cell">
+            <span class="copies-count">{{ book.available_copies }}</span>
+            <span class="copies-label">available</span>
+        </div>
         <div class="grid-cell">{{ book.ISBN }}</div>
         <div class="grid-cell">{{ book.publishYear }}</div>
         <div class="grid-cell">
-            <span class="status-badge" [class.status-available]="book.status === 'available'">
-                {{ book.status }}
+            <span class="status-badge" [class.status-available]="book.available_copies > 0" [class.status-unavailable]="book.available_copies === 0">
+                {{ book.available_copies > 0 ? 'Available' : 'Unavailable' }}
             </span>
         </div>
         <div class="actions">
