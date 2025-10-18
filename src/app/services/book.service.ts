@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 export interface Book {
   id: number;
@@ -11,6 +12,9 @@ export interface Book {
   created_at: string;
   total_copies: number;
   available_copies: number;
+  publishYear?: number; // Add this if your books have publishYear
+  ISBN?: string; // Add this if your books have ISBN
+  page?: number; // Add this if your books have page
 }
 
 @Injectable({
@@ -22,27 +26,31 @@ export class BookService {
   constructor(private http: HttpClient) {}
 
   // Get all books - FIXED VERSION
-getAllBooks(): Observable<Book[]> {
-  return this.http.get<any>(`${this.apiUrl}/books`).pipe(
-    map(response => {
-      // Handle both response formats
-      const booksArray = response.data || response;
-      
-      if (!Array.isArray(booksArray)) {
-        console.error('Expected array but got:', booksArray);
-        return [];
-      }
-      
-      return booksArray.map((book: any) => ({
-        ...book,
-        total_copies: Number(book.total_copies) || 0,
-        available_copies: Number(book.available_copies) || 0,
-        img: book.img || null,
-        status: (Number(book.available_copies) || 0) > 0 ? 'available' : 'unavailable'
-      }));
-    })
-  );
-}
+  getAllBooks(): Observable<Book[]> {
+    return this.http.get<any>(`${this.apiUrl}/books`).pipe(
+      map(response => {
+        // Handle both response formats
+        const booksArray = response.data || response;
+        
+        if (!Array.isArray(booksArray)) {
+          console.error('Expected array but got:', booksArray);
+          return [];
+        }
+        
+        return booksArray.map((book: any) => ({
+          ...book,
+          total_copies: Number(book.total_copies) || 0,
+          available_copies: Number(book.available_copies) || 0,
+          img: book.img || null,
+          status: (Number(book.available_copies) || 0) > 0 ? 'available' : 'unavailable'
+        }));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error loading books:', error);
+        return of([]); // Return empty array on error
+      })
+    );
+  }
 
   // Get book by ID
   getBookById(id: number): Observable<Book> {
@@ -68,6 +76,10 @@ getAllBooks(): Observable<Book[]> {
           } else {
             throw new Error('Book not found');
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error loading book:', error);
+          throw error; // Re-throw the error
         })
       );
   }
@@ -95,6 +107,10 @@ getAllBooks(): Observable<Book[]> {
           } else {
             return [];
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error searching books:', error);
+          return of([]);
         })
       );
   }
@@ -122,6 +138,10 @@ getAllBooks(): Observable<Book[]> {
           } else {
             return [];
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error filtering books:', error);
+          return of([]);
         })
       );
   }
@@ -129,18 +149,36 @@ getAllBooks(): Observable<Book[]> {
   // Create new book
   createBook(bookData: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${this.apiUrl}/books`, bookData, { headers });
+    return this.http.post<any>(`${this.apiUrl}/books`, bookData, { headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error creating book:', error);
+          throw error;
+        })
+      );
   }
 
   // Update book
   updateBook(id: number, bookData: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<any>(`${this.apiUrl}/books/${id}`, bookData, { headers });
+    return this.http.put<any>(`${this.apiUrl}/books/${id}`, bookData, { headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error updating book:', error);
+          throw error;
+        })
+      );
   }
 
   // Delete book
   deleteBook(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/books/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/books/${id}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error deleting book:', error);
+          throw error;
+        })
+      );
   }
 
   // Get image URL - handle both absolute and relative paths

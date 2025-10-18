@@ -77,12 +77,16 @@
             <div class="arrivals-section">
                 <div class="arrivals-tab">Recommended</div>
                 <div class="books-container">
-                    @for (book of books.slice(0, 6); track book.id) {
+                    @for (book of recommendedBooks; track book.id) {
                     <div class="book">
                         <img [src]="getImageUrl(book.img)" [alt]="book.title">
+                        <div class="book-info-overlay">
+                            <div class="book-title-small">{{ book.title }}</div>
+                            <div class="book-copies-small">Available: {{ book.total_copies }}</div>
+                        </div>
                     </div>
                     }
-                    @if (books.length === 0) {
+                    @if (recommendedBooks.length === 0) {
                     <div class="no-results-default">
                         <p>No books available</p>
                     </div>
@@ -104,9 +108,10 @@
                 <img [src]="getImageUrl(book.img)" class="book-cover" [alt]="book.title">
                 <div class="book-title">{{ book.title }}</div>
                 <div class="book-author">{{ book.author }}</div>
-                <div class="book-copies">Available: {{ book.available_copies }}/{{ book.total_copies }}</div>
-                <div class="book-status" [class.available]="book.available_copies > 0" [class.unavailable]="book.available_copies === 0">
-                    {{ book.available_copies > 0 ? 'Available' : 'Out of Stock' }}
+                <!-- Show total copies available (no duplicates) -->
+                <div class="book-copies">Available: {{ book.total_copies }}</div>
+                <div class="book-status" [class.available]="book.total_copies > 0" [class.unavailable]="book.total_copies === 0">
+                    {{ book.total_copies > 0 ? 'Available' : 'Out of Stock' }}
                 </div>
             </div>
             }
@@ -126,13 +131,13 @@
     }
 
     <!-- Add Book Popup -->
-@if (showAddBookPopup) {
-<div class="popup-overlay" (click)="closeAddBookPopup()">
-  <div class="popup-content" (click)="$event.stopPropagation()">
-    <app-add-book></app-add-book>
-  </div>
-</div>
-}
+    @if (showAddBookPopup) {
+    <div class="popup-overlay" (click)="closeAddBookPopup()">
+      <div class="popup-content" (click)="$event.stopPropagation()">
+        <app-add-book (close)="closeAddBookPopup()"></app-add-book>
+      </div>
+    </div>
+    }
 
 </main>
 <router-outlet></router-outlet>

@@ -27,7 +27,6 @@ export class Home implements OnInit, OnDestroy {
     private bookService: BookService,
     private route: ActivatedRoute
   ) {
-    // Listen for route changes to reload books
     this.routeSubscription = this.route.params.subscribe(params => {
       this.loadBooks();
     });
@@ -68,15 +67,55 @@ export class Home implements OnInit, OnDestroy {
     return this.selectedFilter !== 'onshelf';
   }
 
+  // Get unique books for display (no duplicates, no null titles)
+  get uniqueBooks() {
+    const uniqueBooksMap = new Map<string, Book>();
+    const bookCounts = new Map<string, number>();
+    
+    // Filter out books with null/empty titles and count duplicates
+    this.books
+      .filter(book => book.title && book.title.trim() !== '')
+      .forEach(book => {
+        const key = book.title.toLowerCase().trim();
+        
+        // Count duplicates
+        bookCounts.set(key, (bookCounts.get(key) || 0) + 1);
+        
+        // Keep only the first occurrence of each book title
+        if (!uniqueBooksMap.has(key)) {
+          uniqueBooksMap.set(key, {
+            ...book,
+            // Store the count for display
+            total_copies: bookCounts.get(key) || 1,
+            available_copies: bookCounts.get(key) || 1
+          });
+        } else {
+          // Update the count for existing book
+          const existingBook = uniqueBooksMap.get(key)!;
+          existingBook.total_copies = bookCounts.get(key)!;
+          existingBook.available_copies = bookCounts.get(key)!;
+        }
+      });
+    
+    return Array.from(uniqueBooksMap.values());
+  }
+
+  // For search functionality - filter unique books
   get filteredBooks() {
     if (!this.searchQuery || this.searchQuery.trim() === '') {
-      return this.books;
+      return this.uniqueBooks;
     }
+    
     const query = this.searchQuery.toLowerCase().trim();
-    return this.books.filter(book => 
+    return this.uniqueBooks.filter(book => 
       book.title.toLowerCase().includes(query) ||
       book.author.toLowerCase().includes(query)
     );
+  }
+
+  // For recommended section - show first 6 unique books
+  get recommendedBooks() {
+    return this.uniqueBooks.slice(0, 6);
   }
 
   getImageUrl(imgPath: string): string {
