@@ -4,10 +4,12 @@
     </div>
 
     <h2>Delete Book</h2>
-    <p>Do you want to delete or discard changes?</p>
+    <p>Are you sure you want to delete "{{ bookTitle }}" by {{ bookAuthor }}?</p>
 
     <div class="button-group">
-        <button class="btn btn-discard">Discard</button>
-        <button class="btn btn-delete">Delete</button>
+        <button class="btn btn-discard" (click)="onDiscard()" [disabled]="isDeleting">Cancel</button>
+        <button class="btn btn-delete" (click)="onDelete()" [disabled]="isDeleting">
+            {{ isDeleting ? 'Deleting...' : 'Delete' }}
+        </button>
     </div>
 </div>

@@ -5,14 +5,14 @@ import { BookService, Book } from '../services/book.service';
 
 @Component({
   selector: 'app-filter-book',
-  imports: [CommonModule, FormsModule], // Add FormsModule for form handling
+  imports: [CommonModule, FormsModule],
   templateUrl: './filter-book.html',
   styleUrl: './filter-book.css'
 })
 export class FilterBook implements OnChanges, OnInit {
   @Input() searchQuery: string = '';
   @Output() addBookClicked = new EventEmitter<void>();
-  @Output() booksUpdated = new EventEmitter<void>(); // Add this to refresh parent
+  @Output() booksUpdated = new EventEmitter<void>();
 
   books: Book[] = [];
   filteredBooks: Book[] = [];
@@ -110,10 +110,7 @@ export class FilterBook implements OnChanges, OnInit {
       author: book.author,
       pages: book.pages,
       ISBN: book.ISBN,
-      publishYear: book.publishYear,
-      total_copies: book.total_copies,
-      available_copies: book.available_copies,
-      status: book.status
+      publishYear: book.publishYear
     };
     this.showUpdateModal = true;
   }
@@ -135,8 +132,8 @@ export class FilterBook implements OnChanges, OnInit {
         console.log('Book updated successfully:', response);
         this.isUpdating = false;
         this.closeUpdateModal();
-        this.loadBooks(); // Reload the books
-        this.booksUpdated.emit(); // Notify parent to refresh
+        this.loadBooks();
+        this.booksUpdated.emit();
       },
       error: (error) => {
         console.error('Error updating book:', error);
@@ -159,33 +156,57 @@ export class FilterBook implements OnChanges, OnInit {
     this.isDeleting = false;
   }
 
-  // In filter-book.ts, update the confirmDelete method:
   confirmDelete(): void {
-  if (!this.bookToDelete) return;
+    if (!this.bookToDelete) return;
 
-  this.isDeleting = true;
-  console.log('Attempting to delete book:', this.bookToDelete.title, 'ID:', this.bookToDelete.id);
+    this.isDeleting = true;
+    console.log('Attempting to delete book:', this.bookToDelete.title, 'ID:', this.bookToDelete.id);
 
-  // TEMPORARY: Client-side deletion since API endpoint might not exist
-  // This will remove the book from the UI but not from the database
-  setTimeout(() => {
-    // Remove the book from the local arrays
-    this.books = this.books.filter(book => book.id !== this.bookToDelete!.id);
-    this.uniqueBooks = this.uniqueBooks.filter(book => book.id !== this.bookToDelete!.id);
-    this.filteredBooks = this.filteredBooks.filter(book => book.id !== this.bookToDelete!.id);
-    
-    this.isDeleting = false;
-    this.closeDeleteModal();
-    console.log('Book removed from UI (temporary solution)');
-    
-    // Show success message
-    this.errorMessage = ''; // Clear any previous errors
-    
-  }, 1000);
+    // Store the book data in local variables before the async operation
+    const bookId = this.bookToDelete.id;
+    const bookTitle = this.bookToDelete.title;
+
+    // Use the actual API endpoint
+    this.bookService.deleteBook(bookId).subscribe({
+      next: (response) => {
+        console.log('Book deleted successfully:', response);
+        this.isDeleting = false;
+        
+        // Remove the book from the local arrays using the stored ID
+        this.books = this.books.filter(book => book.id !== bookId);
+        this.uniqueBooks = this.uniqueBooks.filter(book => book.id !== bookId);
+        this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+        
+        this.closeDeleteModal();
+        console.log('Book deleted from database and UI');
+        
+        // Show success message
+        this.errorMessage = '';
+      },
+      error: (error) => {
+        console.error('Error deleting book:', error);
+        this.errorMessage = 'Failed to delete book. Please try again.';
+        this.isDeleting = false;
+        
+        // If API fails, fall back to UI-only deletion for testing
+        console.log('API delete failed, falling back to UI deletion');
+        
+        // Use the stored ID for filtering
+        this.books = this.books.filter(book => book.id !== bookId);
+        this.uniqueBooks = this.uniqueBooks.filter(book => book.id !== bookId);
+        this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+        
+        this.closeDeleteModal();
+      }
+    });
   }
 
   onAddBook(): void {
     this.addBookClicked.emit();
+  }
+
+  getCurrentYear(): number {
+    return new Date().getFullYear();
   }
 
   getImageUrl(imgPath: string): string {

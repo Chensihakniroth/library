@@ -7,48 +7,251 @@
     </div>
 
     <h2 class="popup-title">Update Book</h2>
-    <p class="popup-subtitle">Change an information about book</p>
+    <p class="popup-subtitle">Change information about book</p>
 
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Book Cover Display -->
     <div class="book-preview">
-        <img src="https://images.unsplash.com/photo-1621351183012-e2f6d0f387c5?w=300&h=450&fit=crop"
-            alt="Rich Dad Poor Dad" class="book-cover-img">
+        <img [src]="getImageUrl(book.img)" class="book-cover-img" alt="Book cover">
     </div>
 
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">Book Title</label>
-            <input type="text" class="form-input" value="Olivia Rhye">
+    <!-- Reactive Form -->
+    <form [formGroup]="updateForm" (ngSubmit)="updateBook()">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Book Title *</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="Enter book title"
+                    formControlName="title"
+                    [class.error]="title?.invalid && title?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="title?.invalid && title?.touched" class="field-error">
+                    <div *ngIf="title?.errors?.['required']">Title is required</div>
+                    <div *ngIf="title?.errors?.['minlength']">Title must be at least 1 character</div>
+                </div>
+            </div>
+            <div class="form-group" style="max-width: 180px;">
+                <label class="form-label">Publish Year *</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="2024"
+                    formControlName="publishYear"
+                    [class.error]="publishYear?.invalid && publishYear?.touched"
+                    [min]="1000"
+                    [max]="getCurrentYear()"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="publishYear?.invalid && publishYear?.touched" class="field-error">
+                    <div *ngIf="publishYear?.errors?.['required']">Publish year is required</div>
+                    <div *ngIf="publishYear?.errors?.['min'] || publishYear?.errors?.['max']">
+                        Must be between 1000 and {{ getCurrentYear() }}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group" style="max-width: 180px;">
-            <label class="form-label">Publish Year</label>
-            <input type="text" class="form-input" value="2024">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Author *</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="Enter author name"
+                    formControlName="author"
+                    [class.error]="author?.invalid && author?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="author?.invalid && author?.touched" class="field-error">
+                    <div *ngIf="author?.errors?.['required']">Author is required</div>
+                    <div *ngIf="author?.errors?.['minlength']">Author must be at least 2 characters</div>
+                </div>
+            </div>
+            <div class="form-group" style="max-width: 180px;">
+                <label class="form-label">Pages</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="320"
+                    formControlName="pages"
+                    [class.error]="pages?.invalid && pages?.touched"
+                    [min]="1"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="pages?.invalid && pages?.touched" class="field-error">
+                    Must be at least 1 page
+                </div>
+            </div>
         </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">ISBN</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="978-3-16-148410-0"
+                    formControlName="ISBN"
+                    [class.error]="ISBN?.invalid && ISBN?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="ISBN?.invalid && ISBN?.touched" class="field-error">
+                    Please enter a valid ISBN (10 or 13 digits)
+                </div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button 
+                class="btn btn-cancel" 
+                type="button"
+                (click)="closePopup()"
+                [disabled]="isUpdating"
+            >
+                Cancel
+            </button>
+            <button 
+                class="btn btn-update" 
+                type="submit"
+                [disabled]="isUpdating || updateForm.invalid"
+            >
+                {{ isUpdating ? 'Updating...' : 'Update' }}
+            </button>
+        </div>
+    </form>
+</div><div class="popup-container">
+    <div class="popup-icon">
+        <svg viewBox="0 0 24 24">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
     </div>
 
-    <div class="form-row">
-        <div class="form-group" style="max-width: 180px;">
-            <label class="form-label">Book Create at</label>
-            <input type="text" class="form-input" value="1999">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Author</label>
-            <input type="text" class="form-input" value="Mony Visa">
-        </div>
+    <h2 class="popup-title">Update Book</h2>
+    <p class="popup-subtitle">Change information about book</p>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
     </div>
 
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">ISBN</label>
-            <input type="text" class="form-input" value="978-3-16-148410-0">
-        </div>
-        <div class="form-group" style="max-width: 180px;">
-            <label class="form-label">Pages</label>
-            <input type="text" class="form-input" value="45">
-        </div>
+    <!-- Book Cover Display -->
+    <div class="book-preview">
+        <img [src]="getImageUrl(book.img)" class="book-cover-img" alt="Book cover">
     </div>
 
-    <div class="button-row">
-        <button class="btn btn-cancel">Cancel</button>
-        <button class="btn btn-update">Update</button>
-    </div>
+    <!-- Reactive Form -->
+    <form [formGroup]="updateForm" (ngSubmit)="updateBook()">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Book Title *</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="Enter book title"
+                    formControlName="title"
+                    [class.error]="title?.invalid && title?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="title?.invalid && title?.touched" class="field-error">
+                    <div *ngIf="title?.errors?.['required']">Title is required</div>
+                    <div *ngIf="title?.errors?.['minlength']">Title must be at least 1 character</div>
+                </div>
+            </div>
+            <div class="form-group" style="max-width: 180px;">
+                <label class="form-label">Publish Year *</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="2024"
+                    formControlName="publishYear"
+                    [class.error]="publishYear?.invalid && publishYear?.touched"
+                    [min]="1000"
+                    [max]="getCurrentYear()"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="publishYear?.invalid && publishYear?.touched" class="field-error">
+                    <div *ngIf="publishYear?.errors?.['required']">Publish year is required</div>
+                    <div *ngIf="publishYear?.errors?.['min'] || publishYear?.errors?.['max']">
+                        Must be between 1000 and {{ getCurrentYear() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Author *</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="Enter author name"
+                    formControlName="author"
+                    [class.error]="author?.invalid && author?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="author?.invalid && author?.touched" class="field-error">
+                    <div *ngIf="author?.errors?.['required']">Author is required</div>
+                    <div *ngIf="author?.errors?.['minlength']">Author must be at least 2 characters</div>
+                </div>
+            </div>
+            <div class="form-group" style="max-width: 180px;">
+                <label class="form-label">Pages</label>
+                <input 
+                    type="number" 
+                    class="form-input" 
+                    placeholder="320"
+                    formControlName="pages"
+                    [class.error]="pages?.invalid && pages?.touched"
+                    [min]="1"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="pages?.invalid && pages?.touched" class="field-error">
+                    Must be at least 1 page
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">ISBN</label>
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    placeholder="978-3-16-148410-0"
+                    formControlName="ISBN"
+                    [class.error]="ISBN?.invalid && ISBN?.touched"
+                    [disabled]="isUpdating"
+                />
+                <div *ngIf="ISBN?.invalid && ISBN?.touched" class="field-error">
+                    Please enter a valid ISBN (10 or 13 digits)
+                </div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button 
+                class="btn btn-cancel" 
+                type="button"
+                (click)="closePopup()"
+                [disabled]="isUpdating"
+            >
+                Cancel
+            </button>
+            <button 
+                class="btn btn-update" 
+                type="submit"
+                [disabled]="isUpdating || updateForm.invalid"
+            >
+                {{ isUpdating ? 'Updating...' : 'Update' }}
+            </button>
+        </div>
+    </form>
 </div>

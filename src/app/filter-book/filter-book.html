@@ -4,7 +4,7 @@
         <button class="add-btn" (click)="onAddBook()">Add</button>
     </div>
 
-    <!-- Loading and error states remain the same -->
+    <!-- Loading and error states -->
     @if (errorMessage && !isLoading) {
     <div class="alert alert-error">
         {{ errorMessage }}
@@ -19,7 +19,7 @@
     }
 
     @if (!isLoading) {
-    <!-- Your existing grid layout -->
+    <!-- Grid layout -->
     <div class="grid-header">
         <div class="grid-header-item">Title & Author</div>
         <div class="grid-header-item">Available Copies</div>
@@ -66,7 +66,7 @@
     }
     }
 
-    <!-- Your Update Book Modal -->
+    <!-- Update Book Modal - CORRECTED VERSION WITHOUT TOTAL COPIES -->
     @if (showUpdateModal) {
     <div class="modal-overlay" (click)="closeUpdateModal()">
         <div class="popup-container" (click)="$event.stopPropagation()">
@@ -87,33 +87,43 @@
             </div>
 
             <form (ngSubmit)="submitUpdate()">
+                <!-- Form Fields - MATCHING ADD BOOK FORM LAYOUT -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Book Title</label>
+                        <label class="form-label">Book Title *</label>
                         <input type="text" class="form-input" 
                                [(ngModel)]="updateFormData.title" 
-                               name="title" required>
+                               name="title" 
+                               placeholder="Enter book title"
+                               required>
                     </div>
                     <div class="form-group" style="max-width: 180px;">
-                        <label class="form-label">Publish Year</label>
+                        <label class="form-label">Publish Year *</label>
                         <input type="number" class="form-input" 
                                [(ngModel)]="updateFormData.publishYear" 
-                               name="publishYear">
+                               name="publishYear"
+                               placeholder="2024"
+                               [min]="1000"
+                               [max]="getCurrentYear()">
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group" style="max-width: 180px;">
-                        <label class="form-label">Total Copies</label>
-                        <input type="number" class="form-input" 
-                               [(ngModel)]="updateFormData.total_copies" 
-                               name="total_copies">
-                    </div>
                     <div class="form-group">
-                        <label class="form-label">Author</label>
+                        <label class="form-label">Author *</label>
                         <input type="text" class="form-input" 
                                [(ngModel)]="updateFormData.author" 
-                               name="author" required>
+                               name="author" 
+                               placeholder="Enter author name"
+                               required>
+                    </div>
+                    <div class="form-group" style="max-width: 180px;">
+                        <label class="form-label">Pages</label>
+                        <input type="number" class="form-input" 
+                               [(ngModel)]="updateFormData.pages" 
+                               name="pages"
+                               placeholder="320"
+                               [min]="1">
                     </div>
                 </div>
 
@@ -122,19 +132,14 @@
                         <label class="form-label">ISBN</label>
                         <input type="text" class="form-input" 
                                [(ngModel)]="updateFormData.ISBN" 
-                               name="ISBN">
-                    </div>
-                    <div class="form-group" style="max-width: 180px;">
-                        <label class="form-label">Pages</label>
-                        <input type="number" class="form-input" 
-                               [(ngModel)]="updateFormData.pages" 
-                               name="pages">
+                               name="ISBN"
+                               placeholder="978-3-16-148410-0">
                     </div>
                 </div>
 
                 <div class="button-row">
                     <button type="button" class="btn btn-cancel" (click)="closeUpdateModal()">Cancel</button>
-                    <button type="submit" class="btn btn-update" [disabled]="isUpdating">
+                    <button type="submit" class="btn btn-update" [disabled]="isUpdating || !updateFormData.title || !updateFormData.author || !updateFormData.publishYear">
                         {{ isUpdating ? 'Updating...' : 'Update' }}
                     </button>
                 </div>
@@ -143,7 +148,7 @@
     </div>
     }
 
-    <!-- Your Delete Confirmation Modal -->
+    <!-- Delete Confirmation Modal -->
     @if (showDeleteModal) {
     <div class="modal-overlay" (click)="closeDeleteModal()">
         <div class="modal" (click)="$event.stopPropagation()">
