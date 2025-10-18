@@ -5,10 +5,10 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 
 interface BookForm {
   title: string;
-  publishYear: string;  // Exact database field name
+  publishYear: string;
   author: string;
-  ISBN: string;         // Exact database field name (uppercase)
-  page: string;
+  ISBN: string;
+  pages: string;
   image: File | null;
   imagePreview: string;
 }
@@ -29,13 +29,14 @@ export class AddBook {
     publishYear: '',
     author: '',
     ISBN: '',
-    page: '',
+    pages: '',
     image: null,
     imagePreview: ''
   };
 
   isUploading: boolean = false;
   uploadProgress: number = 0;
+  private apiUrl = 'http://localhost:8080/library-management-system/api';
 
   constructor(private http: HttpClient) {}
 
@@ -90,7 +91,7 @@ export class AddBook {
     this.book.imagePreview = '';
   }
 
-  // Add book to database
+  // Add book to database WITH FILE UPLOAD
   addBook(): void {
     // Validate form
     if (!this.book.title || !this.book.author || !this.book.publishYear) {
@@ -109,28 +110,30 @@ export class AddBook {
     this.isUploading = true;
     this.uploadProgress = 0;
 
-    const formData = new FormData();
-    
-    // Add book data as JSON - EXACT DATABASE FIELD NAMES
+    // Prepare book data
     const bookData = {
       title: this.book.title,
-      publishYear: this.book.publishYear,  // Exact database field name
       author: this.book.author,
-      ISBN: this.book.ISBN,                // Exact database field name (uppercase)
-      page: this.book.page ? parseInt(this.book.page) : null
+      publishYear: parseInt(this.book.publishYear),
+      pages: this.book.pages ? parseInt(this.book.pages) : null,
+      ISBN: this.book.ISBN || ''
     };
-    
-    console.log('Sending book data:', bookData); // For debugging
-    
-    formData.append('bookData', JSON.stringify(bookData));
 
+    console.log('Sending book data:', bookData);
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    
+    // Add book data as JSON string
+    formData.append('bookData', JSON.stringify(bookData));
+    
     // Add image file if selected
     if (this.book.image) {
       formData.append('bookImage', this.book.image, this.book.image.name);
     }
 
-    // Send to your existing api.php
-    this.http.post('http://localhost:8080/library-management-system/api/books', formData, {
+    // Send as FormData to handle file upload
+    this.http.post(`${this.apiUrl}/books`, formData, {
       reportProgress: true,
       observe: 'events'
     }).subscribe({
@@ -139,10 +142,10 @@ export class AddBook {
           this.uploadProgress = Math.round(100 * event.loaded / event.total);
         } else if (event.type === HttpEventType.Response) {
           const response = event.body;
-          console.log('API Response:', response); // For debugging
+          console.log('API Response:', response);
           
           if (response.success) {
-            alert('Book added successfully!');
+            alert('Book added successfully with image!');
             this.closePopup();
           } else {
             alert('Error: ' + response.message);
@@ -153,6 +156,7 @@ export class AddBook {
       },
       error: (error) => {
         console.error('Upload error:', error);
+        console.error('Error response:', error.error);
         alert('Failed to add book. Please try again.');
         this.isUploading = false;
         this.uploadProgress = 0;

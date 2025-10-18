@@ -18,7 +18,7 @@
         accept=".jpg,.jpeg,.png" 
         (change)="onFileSelected($event)"
         style="display: none"
-    >
+    />
 
     <!-- Upload Area with Preview -->
     <div class="upload-area" (click)="triggerFileInput()">
@@ -54,7 +54,7 @@
                 placeholder="Enter book title"
                 [(ngModel)]="book.title"
                 [disabled]="isUploading"
-            >
+            />
         </div>
         <div class="form-group" style="max-width: 180px;">
             <label class="form-label">Publish Year *</label>
@@ -66,7 +66,7 @@
                 [min]="1000"
                 [max]="getCurrentYear()"
                 [disabled]="isUploading"
-            >
+            />
         </div>
     </div>
 
@@ -79,7 +79,7 @@
                 placeholder="Enter author name"
                 [(ngModel)]="book.author"
                 [disabled]="isUploading"
-            >
+            />
         </div>
         <div class="form-group" style="max-width: 180px;">
             <label class="form-label">Pages</label>
@@ -87,10 +87,10 @@
                 type="number" 
                 class="form-input" 
                 placeholder="320"
-                [(ngModel)]="book.page"
+                [(ngModel)]="book.pages"
                 [min]="1"
                 [disabled]="isUploading"
-            >
+            />
         </div>
     </div>
 
@@ -103,7 +103,7 @@
                 placeholder="978-3-16-148410-0"
                 [(ngModel)]="book.ISBN"
                 [disabled]="isUploading"
-            >
+            />
         </div>
     </div>
 

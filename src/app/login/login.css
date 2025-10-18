@@ -71,33 +71,49 @@ main > form > div > svg{
     margin-bottom: 1rem;
 }
 
-input[type="checkbox"]{
-    width: 0.8rem;
-    height: 0.8rem;
-    position: absolute;
-    bottom: 7.5%;
-    left: -47.5%;
-    cursor: pointer;
-    accent-color: #FA7C54;
-}
-
+/* FIXED REMEMBER ME SECTION - SIMPLE SOLUTION */
 .rememberMeGroup{
     position: relative;
     margin-top: 1.5rem;
+    display: block;
 }
 
-.rememberMeGroup > label{
+.rememberMeContainer {
+    display: inline-block;
+    width: auto;
+    position: relative;
+}
+
+.rememberMeContainer input[type="checkbox"] {
+    width: 0.8rem;
+    height: 0.8rem;
+    cursor: pointer;
+    accent-color: #FA7C54;
+    margin: 0;
+    vertical-align: middle;
+    position: static;
+}
+
+.rememberMeContainer label {
     font-size: 0.7rem;
     color: #4D4D4D;
-    padding-left: 1.2rem;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    white-space: nowrap;
 }
 
 .rememberMeGroup > a{
     color: #4D4D4D;
     font-size: 0.75rem;
     position: absolute;
-    bottom: 7.5%;
-    right: 0%
+    bottom: 0;
+    right: 0;
+    text-decoration: none;
+}
+
+.rememberMeGroup > a:hover {
+    text-decoration: underline;
 }
 
 .btnLogin {
