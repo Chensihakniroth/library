@@ -41,11 +41,12 @@
                 <div class="date-text">{{ currentDate }}</div>
             </div>
         </div>
-        <a routerLink="">
+        <!-- FIXED: Changed routerLink to click event -->
+        <button class="logout-button" (click)="logout()">
             <svg class="logout-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
             </svg>
-        </a>
+        </button>
     </nav>
 
     <!-- Loading State -->
@@ -133,14 +134,18 @@
         </app-filter-book>
         }
 
-    <!-- Add Book Popup -->
+    <!-- FIXED: Add Book Popup - removed syntax error and improved event handling -->
     @if (showAddBookPopup) {
     <div class="popup-overlay" (click)="closeAddBookPopup()">
       <div class="popup-content" (click)="$event.stopPropagation()">
-        <app-add-book (close)="closeAddBookPopup()"></app-add-book>
+        <app-add-book 
+          (close)="closeAddBookPopup()"
+          (bookAdded)="onBookAdded()">
+        </app-add-book>
       </div>
     </div>
     }
+    
 
 </main>
 <router-outlet></router-outlet>

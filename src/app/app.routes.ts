@@ -16,5 +16,14 @@ export const routes: Routes = [
   { path: '', component: Login },
   { path: 'register', component: Register },
   { path: 'send-otp', component: SendOtp },
-  { path: 'update-book', component: UpdateBook }
+  { path: 'update-book', component: UpdateBook },
+  { path: 'login', component: Login },
+
+  { 
+    path: 'home', 
+    component: Home,
+    runGuardsAndResolvers: 'always' // This forces reload
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' }
 ];

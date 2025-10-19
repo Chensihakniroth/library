@@ -30,6 +30,11 @@ export class Login implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [false]
     });
+
+    // If already logged in, redirect to home
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/home']);
+    }
   }
 
   togglePasswordVisibility() {
@@ -60,27 +65,16 @@ export class Login implements OnInit {
         if (response.success) {
           this.successMessage = response.message || 'Login successful!';
           
-          // Store user data and token
-          this.authService.setUser({
-            token: response.token,
-            id: response.user.id,
-            name: response.user.name,
-            email: response.user.email,
-            profile_image: response.user.profile_image
-          });
-
           // Store remember me preference
           if (this.loginForm.value.rememberMe) {
             localStorage.setItem('rememberMe', 'true');
           }
 
-        // Replace the navigation in login success with:
-             setTimeout(() => {
-             this.router.navigate(['/home'], { 
-            onSameUrlNavigation: 'reload',
-          replaceUrl: true 
-          });
-        }, 1000);
+          // Navigate to home after successful login
+          console.log('Login successful, navigating to home...');
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+          }, 500);
 
         } else {
           this.errorMessage = response.message || 'Login failed';
